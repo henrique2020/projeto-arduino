@@ -1,0 +1,213 @@
+{
+  "info": {
+    "_postman_id": "48d74581-c7f8-4d7f-a65b-66e9d3366a38",
+    "name": "API Estoque",
+    "description": "Collection com todas as rotas da API de estoque.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17637127"
+  },
+  "item": [
+    {
+      "name": "Item",
+      "item": [
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/item/{{itemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "item",
+                "{{itemId}}"
+              ]
+            },
+            "description": "Entradas aceitas:\n\n1. {{itemId}}\n    \n2. {{itemRfid}}\n    \n    1. Caso o RFID não esteja cadastrado, ele segue com o cadastro"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar (pendentes)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pendentes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pendentes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cadastrar (desativado)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rfid\": \"12345678\",\n  \"nome\": \"Item Postman\",\n  \"valor\": 49.9,\n  \"estoque\": 10,\n  \"pendente\": true,\n  \"ativo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/item",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "item"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar (item)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Item Atualizado\",\n  \"valor\": 59.9,\n  \"pendente\": false,\n  \"ativo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/item/{{itemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "item",
+                "{{itemId}}"
+              ]
+            },
+            "description": "Entradas aceitas:\n\n1. {{itemId}}\n    \n2. {{itemRfid}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar (estoque)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"add\",\n  \"quantidade\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/estoque/{{itemRfid}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "estoque",
+                "{{itemRfid}}"
+              ]
+            },
+            "description": "Entradas aceitas:\n\n1. {{itemId}}\n    \n2. {{itemRfid}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Histórico",
+      "item": [
+        {
+          "name": "Consultar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/historico/{{itemRfid}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "historico",
+                "{{itemRfid}}"
+              ]
+            },
+            "description": "Entradas aceitas:\n\n1. {{itemId}}\n    \n2. {{itemRfid}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/historico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "historico"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "itemId",
+      "value": "AB12"
+    },
+    {
+      "key": "itemRfid",
+      "value": "RFID-001"
+    }
+  ]
+}
