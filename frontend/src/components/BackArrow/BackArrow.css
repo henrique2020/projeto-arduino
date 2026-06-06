@@ -1,0 +1,22 @@
+.back-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.back-arrow:hover {
+  background-color: var(--color-primary-surface);
+  color: var(--color-primary);
+}
+
+.back-arrow:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

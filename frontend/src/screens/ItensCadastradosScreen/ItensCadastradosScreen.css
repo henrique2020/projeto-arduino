@@ -1,0 +1,52 @@
+.itens-cadastrados {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.itens-cadastrados__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.itens-cadastrados__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.itens-cadastrados__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: var(--radius);
+  color: var(--color-primary);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.itens-cadastrados__action-btn:hover {
+  background-color: var(--color-primary-surface);
+  color: var(--color-primary-dark);
+}
+
+.itens-cadastrados__action-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .itens-cadastrados {
+    padding: 1rem;
+  }
+
+  .itens-cadastrados__title {
+    font-size: 1.25rem;
+  }
+}
