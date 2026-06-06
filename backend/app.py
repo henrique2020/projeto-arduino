@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from database import init_db
 from routes.get_routes import get_bp
 from routes.post_routes import post_bp
 from routes.put_routes import put_bp
 
 app = Flask(__name__)
+CORS(app)
 app.register_blueprint(get_bp)
 app.register_blueprint(post_bp)
 app.register_blueprint(put_bp)

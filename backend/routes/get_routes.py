@@ -105,6 +105,16 @@ def get_item(item_ref):
     return jsonify(response)
 
 
+@get_bp.route("/itens", methods=["GET"])
+def get_itens():
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT id, nome, valor, estoque, rfid, pendente, ativo FROM items WHERE pendente = 0"
+    ).fetchall()
+    conn.close()
+    return jsonify([dict(r) for r in rows])
+
+
 @get_bp.route("/pendentes", methods=["GET"])
 def get_pendentes():
     conn = get_connection()

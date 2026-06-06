@@ -1,0 +1,60 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.filter-bar__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 150px;
+  flex: 1;
+}
+
+.filter-bar__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.filter-bar__input,
+.filter-bar__select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+}
+
+.filter-bar__input:focus,
+.filter-bar__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.15);
+}
+
+.filter-bar__input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+}
+
+@media (max-width: 767px) {
+  .filter-bar {
+    flex-direction: column;
+  }
+
+  .filter-bar__field {
+    min-width: 100%;
+  }
+}
