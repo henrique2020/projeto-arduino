@@ -10,33 +10,58 @@ Os itens possuem as flags booleanas `pendente` e `ativo` (armazenadas como `0/1`
 - Python 3
 - Flask
 - SQLite
+- PySerial (comunicacao com Arduino)
 
-## Como rodar
+## Ambiente virtual (.venv)
 
-1. Instale as dependencias:
+Crie e ative o ambiente virtual antes de instalar as dependencias:
+
+### Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+## Instalação
+
+Com o ambiente virtual ativado:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Inicie a API:
+## Como rodar
 
 ```bash
 python app.py
 ```
 
-3. A API ficara disponivel em:
+A API ficara disponivel em:
 
 ```text
 http://localhost:5000
 ```
 
-## Estrutura basica
+A thread de comunicacao serial inicia automaticamente junto com a API.
 
-- `app.py`: inicializacao da API e registro das rotas
-- `database.py`: conexao e criacao das tabelas (`items` e `historico`)
+## Estrutura
+
+- `app.py`: inicializacao da API, registro das rotas e thread serial
+- `database.py`: conexao, migracao e criacao das tabelas (`items` e `historico`)
 - `routes/get_routes.py`: endpoints GET
-- `routes/post_routes.py`: endpoint POST
+- `routes/post_routes.py`: endpoint POST (bloqueado - cadastro indireto)
 - `routes/put_routes.py`: endpoints PUT
+- `threads/serial_worker.py`: comunicacao serial com Arduino
 
-## [Rotas](./routes.md "routes.md")
+## Documentacao
+
+- [Rotas da API](./routes.md)
+- [Comunicação Serial](./serial.md)
