@@ -18,7 +18,6 @@ function App() {
           <Route path="/itens-cadastrados" element={<ItensCadastradosScreen />} />
           <Route path="/itens-pendentes" element={<ItensPendentesScreen />} />
           <Route path="/historico" element={<HistoricoScreen />} />
-          <Route path="/historico/:item_ref" element={<HistoricoScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

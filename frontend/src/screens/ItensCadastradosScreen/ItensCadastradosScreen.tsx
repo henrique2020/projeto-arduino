@@ -139,10 +139,9 @@ function ItensCadastradosScreen() {
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M12 19V5" />
-            <path d="M5 12l7-7 7 7" />
-            <path d="M12 19V5" />
-            <path d="M19 12l-7 7-7-7" />
+            <path d="M21 8V21H3V8" />
+            <rect x="1" y="3" width="22" height="5" />
+            <line x1="10" y1="12" x2="14" y2="12" />
           </svg>
         </button>
       ),
@@ -154,7 +153,7 @@ function ItensCadastradosScreen() {
         <button
           className="itens-cadastrados__action-btn"
           aria-label={`Ver histórico item ${item.id}`}
-          onClick={() => navigate(`/historico/${item.id}`)}
+          onClick={() => navigate('/historico', { state: { item_id: item.id } })}
           type="button"
         >
           <svg
