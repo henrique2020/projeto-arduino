@@ -42,7 +42,7 @@ function ItensPendentesScreen() {
   function handleEditSave() {
     setEditingItem(null);
     loadPendentes();
-    showToast('Item Editado com sucesso', 'success');
+    showToast('Item Cadastrado com sucesso', 'success');
   }
 
   function handleFilterChange(key: string, value: string) {

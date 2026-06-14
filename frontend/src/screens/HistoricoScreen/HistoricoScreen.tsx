@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import BackArrow from '../../components/BackArrow/BackArrow';
 import { FilterBar } from '../../components/FilterBar/FilterBar';
 import DataTable from '../../components/DataTable/DataTable';
@@ -26,11 +26,12 @@ const filterFields = [
 ];
 
 function HistoricoScreen() {
-  const { item_ref } = useParams<{ item_ref?: string }>();
+  const location = useLocation();
+  const itemIdFromState = (location.state as { item_id?: string })?.item_id || '';
   const [records, setRecords] = useState<HistoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<HistoricoFilters>({
-    item_id: '',
+    item_id: itemIdFromState,
     nome: '',
     tipo: 'todos',
   });
@@ -38,12 +39,12 @@ function HistoricoScreen() {
 
   useEffect(() => {
     loadHistorico();
-  }, [item_ref]);
+  }, []);
 
   async function loadHistorico() {
     setLoading(true);
     try {
-      const data = await fetchHistorico(item_ref);
+      const data = await fetchHistorico();
       setRecords(data);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Erro ao carregar histórico';
