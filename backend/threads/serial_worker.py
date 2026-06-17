@@ -14,10 +14,17 @@ DELAY_LOOP = 0.1
 # --- Resposta Serial ---
 def enviar_resposta(ser, mensagem):
     try:
-        ser.write(f"{mensagem}\n".encode("utf-8"))
+        ser.write(f"MENSAGEM:{mensagem}\n".encode("utf-8"))
+        print(f"MENSAGEM:{mensagem}")
     except Exception as e:
         print(f"[SERIAL] Erro ao enviar resposta: {e}")
 
+def enviar_item(ser, mensagem):
+    try:
+        ser.write(f"{mensagem}\n".encode("utf-8"))
+        print(f"{mensagem}")
+    except Exception as e:
+        print(f"[SERIAL] Erro ao enviar resposta: {e}")
 
 # --- Processamento de Comandos Recebidos ---
 def consulta(rfid, ser):
@@ -26,7 +33,7 @@ def consulta(rfid, ser):
         resposta = requests.get(f"{API_BASE_URL}/item/{rfid}", timeout=5)
     except requests.RequestException as e:
         print(f"[SERIAL] Falha na conexão com a API: {e}")
-        enviar_resposta(ser, "ERRO:API_OFFLINE")
+        enviar_resposta(ser, "API_OFFLINE")
         return
 
     status = resposta.status_code
@@ -34,34 +41,33 @@ def consulta(rfid, ser):
 
     if status == 200:
         if "nome" in dados and "estoque" in dados:
-            enviar_resposta(ser, f"OK:{dados['nome']}:{dados['estoque']}")
+            enviar_item(ser, f"ID:{dados['id']};NOME:{dados['nome']};QTD:{dados['estoque']}")
         elif "mensagem" in dados and "pendente" in dados["mensagem"].lower():
-            enviar_resposta(ser, f"PENDENTE:{dados['id']}")
+            enviar_resposta(ser, f"Item {dados['id']} pendente no portal")
         elif "mensagem" in dados and "desativado" in dados["mensagem"].lower():
-            enviar_resposta(ser, f"DESATIVADO:{dados['id']}")
+            enviar_resposta(ser, f"Item {dados['id']} desativado")
         else:
-            enviar_resposta(ser, "ERRO:RESPOSTA_INESPERADA")
+            enviar_resposta(ser, "RESPOSTA INESPERADA")
 
     elif status == 201:
-        enviar_resposta(ser, f"NOVO:{dados['id']}")
+        enviar_resposta(ser, f"Cadastre o item {dados['id']} no portal")
 
     else:
         erro = dados.get("erro", "Erro desconhecido")
         print(f"[SERIAL] API retornou {status}: {erro}")
-        enviar_resposta(ser, f"ERRO:{erro}")
+        enviar_resposta(ser, erro)
 
 
 def atualiza(rfid, operacao, quantidade_str, ser):
     """Envia movimentação de estoque para a API e repassa resultado pela serial."""
-    tipo_mov = "add" if operacao == "A" else "sub"
 
     try:
         quantidade = int(quantidade_str)
     except ValueError:
-        enviar_resposta(ser, "ERRO:QUANTIDADE_INVALIDA")
+        enviar_resposta(ser, "QUANTIDADE INVALIDA")
         return
 
-    payload = {"tipo": tipo_mov, "quantidade": quantidade}
+    payload = {"tipo": operacao.lower(), "quantidade": quantidade}
 
     try:
         resposta = requests.put(
@@ -69,17 +75,17 @@ def atualiza(rfid, operacao, quantidade_str, ser):
         )
     except requests.RequestException as e:
         print(f"[SERIAL] Falha na conexão com a API: {e}")
-        enviar_resposta(ser, "ERRO:API_OFFLINE")
+        enviar_resposta(ser, "API_OFFLINE")
         return
 
     dados = resposta.json()
 
     if resposta.status_code == 200:
-        enviar_resposta(ser, f"OK:{dados.get('mensagem', '')}")
+        enviar_resposta(ser, dados.get('mensagem', ''))
     else:
         erro = dados.get("erro", "Erro desconhecido")
         print(f"[SERIAL] Erro ao movimentar estoque: {erro}")
-        enviar_resposta(ser, f"ERRO:{erro}")
+        enviar_resposta(ser, erro)
 
 
 # --- Validação e Processamento de Comandos ---
@@ -97,14 +103,14 @@ def processar_comando_serial(linha, ser):
         consulta(rfid, ser)
 
     elif comando in ("ADD", "SUB") and len(partes) == 3:
-        # ADD:<RFID>:5 ou SUB:<RFID>:3
+        # ADD:<ID>:5 ou SUB:<ID>:3
         rfid = partes[1].strip()
-        quantidade_str = partes[3].strip()
+        quantidade_str = partes[2].strip()
         atualiza(rfid, comando, quantidade_str, ser)
 
     else:
         print(f"[SERIAL] Comando não reconhecido: {linha}")
-        enviar_resposta(ser, "ERRO:COMANDO_INVALIDO")
+        enviar_resposta(ser, "COMANDO INVALIDO")
 
 
 # --- Ouvinte da Porta Serial ---

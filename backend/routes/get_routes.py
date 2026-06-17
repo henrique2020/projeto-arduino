@@ -97,6 +97,7 @@ def get_item(item_ref):
         )
 
     response = {
+        "id": row["id"],
         "nome": row["nome"],
         "estoque": row["estoque"],
         "valor": row["valor"],
