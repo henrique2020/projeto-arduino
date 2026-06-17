@@ -93,4 +93,4 @@ def put_estoque(item_ref):
     )
     conn.commit()
     conn.close()
-    return jsonify({"mensagem": f"Estoque atualizado. Novo estoque: {novo_estoque}"})
+    return jsonify({"mensagem": f"Estoque atualizado para {novo_estoque}"})

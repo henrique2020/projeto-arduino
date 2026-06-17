@@ -59,15 +59,15 @@ Envia uma movimentacao de estoque (entrada ou saida) para a API.
 #### Formato de entrada
 
 ```text
-ADD:<RFID>:<QUANTIDADE>
-SUB:<RFID>:<QUANTIDADE>
+ADD:<ID>:<QUANTIDADE>
+SUB:<ID>:<QUANTIDADE>
 ```
 
 #### Exemplos
 
 ```text
-ADD:00-11-22-33:5
-SUB:11-22-33-44:3
+ADD:JM24:5
+SUB:AB12:3
 ```
 
 #### Respostas possiveis
